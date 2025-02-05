@@ -3,32 +3,31 @@ import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 type Props = {
-    cousine: string;
-    field: ControllerRenderProps<FieldValues, "cousines">;
-}
+  cuisine: string;
+  field: ControllerRenderProps<FieldValues, "cuisines">;
+};
 
-const CousineCheckbox = ({ cousine, field }: Props) => {
-    return (
-        <FormItem className="flex flex-row items-center space-x-1 space-y-0 mt-2">
-            <FormControl>
-                <Checkbox
-                    className="bg-white"
-                    checked={field.value.includes(cousine)}
-                    onCheckedChange={(checked) => {
-                        { /* Aca me llega el nuevo valor de checked */ }
-                        if (checked) {
-                            {/* Si es checkeado, lo agrego a la lista de los seleccionados */ }
-                            field.onChange([...field.value, cousine]);
-                        } else {
-                            {/* Si es descheckeado, filtro y actualizo la lista sin el valor que se descheckeo */ }
-                            field.onChange(field.value.filter((value: String) => value !== cousine));
-                        }
-                    }}
-                />
-            </FormControl>
-            <FormLabel className="text-sm font-normal">{cousine}</FormLabel>
-        </FormItem>
-    );
-}
+const CuisineCheckbox = ({ cuisine, field }: Props) => {
+  return (
+    <FormItem className="flex flex-row items-center space-x-1 space-y-0 mt-2">
+      <FormControl>
+        <Checkbox
+          className="bg-white"
+          checked={field.value.includes(cuisine)}
+          onCheckedChange={(checked) => {
+            if (checked) {
+              field.onChange([...field.value, cuisine]);
+            } else {
+              field.onChange(
+                field.value.filter((value: string) => value !== cuisine)
+              );
+            }
+          }}
+        />
+      </FormControl>
+      <FormLabel className="text-sm font-normal">{cuisine}</FormLabel>
+    </FormItem>
+  );
+};
 
-export default CousineCheckbox;
+export default CuisineCheckbox;
