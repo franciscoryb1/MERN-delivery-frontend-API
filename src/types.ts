@@ -1,4 +1,3 @@
-
 export type User = {
     _id: string;
     email: string;
@@ -6,9 +5,15 @@ export type User = {
     addressLine1: string;
     city: string;
     country: string;
-};
-
-export type Restaurant = {
+  };
+  
+  export type MenuItem = {
+    _id: string;
+    name: string;
+    price: number;
+  };
+  
+  export type Restaurant = {
     _id: string;
     user: string;
     restaurantName: string;
@@ -17,13 +22,7 @@ export type Restaurant = {
     deliveryPrice: number;
     estimatedDeliveryTime: number;
     cuisines: string[];
-    menu: MenuItem[];
+    menuItems: MenuItem[];
     imageUrl: string;
     lastUpdated: string;
-};
-
-export type MenuItem = {
-    _id: string;
-    name: string;
-    price: number;
-};
+  };
