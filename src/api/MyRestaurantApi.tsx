@@ -8,6 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // Siempre que se use GET se usa useQuery
 // Siempre que se use POST o PUT se usa useMutation
 
+// Hook para obtener el restaurante del usuario
 export const useGetMyRestaurant = () => {
 
     const { getAccessTokenSilently } = useAuth0();
@@ -16,8 +17,8 @@ export const useGetMyRestaurant = () => {
         const accessToken = await getAccessTokenSilently();
 
         const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
+            method: 'GET',
             headers: {
-                method: 'GET',
                 Authorization: `Bearer ${accessToken}`
             }
         });
@@ -42,7 +43,7 @@ export const useGetMyRestaurant = () => {
 };
 
 
-
+// Hook para crear un restaurante
 export const useCreateMyRestaurant = () => {
     const { getAccessTokenSilently } = useAuth0();
 
@@ -93,5 +94,44 @@ export const useCreateMyRestaurant = () => {
         createRestaurant,
         isLoading
     };
+};
 
+
+// Hook para actualizar un restaurante
+export const useUpdateMyRestaurant = () => {
+    const { getAccessTokenSilently } = useAuth0();
+
+    const updateMyRestaurantRequest = async (restaurantFormData: FormData): Promise<Restaurant> => {
+        const accessToken = await getAccessTokenSilently();
+
+        const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            body: restaurantFormData
+        });
+
+        if (!response) {
+            throw new Error('Failed to update restaurant');
+        }
+
+        return response.json();
+    };
+
+    const { mutate: updateRestaurant,
+        isLoading,
+        isSuccess,
+        error
+    } = useMutation(updateMyRestaurantRequest);
+
+    if (isSuccess) {
+        toast.success('Restaurant updated');
+    }
+
+    if (error instanceof Error) {
+        toast.error(error.message || 'Failed to update restaurant');
+    }
+
+    return { updateRestaurant, isLoading };
 };

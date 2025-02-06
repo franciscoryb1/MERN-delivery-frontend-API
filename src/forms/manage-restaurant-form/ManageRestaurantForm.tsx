@@ -60,10 +60,18 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      restaurantName: "",
+      city: "",
+      country: "",
+      deliveryPrice: 0, // <- Asegurar que sea un número
+      estimatedDeliveryTime: 0, // <- Asegurar que sea un número
       cuisines: [],
       menuItems: [{ name: "", price: 0 }],
+      imageUrl: "",
+      imageFile: undefined,
     },
   });
+
 
   useEffect(() => {
     if (!restaurant) {
