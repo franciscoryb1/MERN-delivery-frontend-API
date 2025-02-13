@@ -5,11 +5,19 @@ import AuthCallbackPage from "./pages/AuthCallbackPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
+import SearchPage from "./pages/SearchPage";
 
 const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/auth-callback" element={<AuthCallbackPage />} />
+
+            <Route path="/search/:city" element={
+                <Layout showHero={false}>
+                    <SearchPage />
+                </Layout>}
+            />
+
             <Route path="/" element={
                 <Layout showHero={true}>
                     <HomePage />
@@ -18,7 +26,6 @@ const AppRoutes = () => {
 
             {/* Ruta protegida: user-profile solo se muestra si el usuario esta loggeado */}
             <Route element={<ProtectedRoute />}>
-
                 {/* UserProfilePage */}
                 <Route
                     path="/user-profile"
@@ -27,7 +34,6 @@ const AppRoutes = () => {
                             <UserProfilePage />
                         </Layout>}
                 />
-
                 {/* ManageRestaurantPage */}
                 <Route
                     path="/manage-restaurant"
@@ -36,7 +42,6 @@ const AppRoutes = () => {
                             <ManageRestaurantPage />
                         </Layout>}
                 />
-
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
