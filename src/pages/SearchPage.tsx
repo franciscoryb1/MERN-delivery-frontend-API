@@ -1,4 +1,5 @@
 import { useSearchRestaurants } from "@/api/RestaurantApi";
+import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchResultInfo from "@/components/SearchResultInfo";
@@ -8,6 +9,7 @@ import { useParams } from "react-router-dom";
 
 export type SearchState = {
     searchQuery: string;
+    page: Number;
 }
 
 
@@ -16,13 +18,23 @@ const SearchPage = () => {
 
     const [searchState, setSearchState] = useState<SearchState>({
         searchQuery: "", // Estado inicial de la búsqueda
+        page: 1, // Página inicial
     })
+
+    const setPage = (page: number) => {
+        setSearchState((setSearchState) => ({
+            ...setSearchState,
+            page, // Actualiza el estado con la nueva página
+        }));
+    };
+
 
     const setSearchQuery = (searchFormData: SearchForm) => {
         // Copia todo el estado anterior y actualiza solo la propiedad searchQuery
         setSearchState((prevState) => ({
             ...prevState,
-            searchQuery: searchFormData.searchQuery, // Actualiza el estado con la nueva consulta de búsqueda
+            searchQuery: searchFormData.searchQuery, // Actualiza el estado con la nueva consulta de búsqueda,
+            page: 1, // Reinicia la página a 1 al realizar una nueva búsqueda
         }))
     }
 
@@ -61,13 +73,19 @@ const SearchPage = () => {
                     onReset={resetSearch}
                 />
 
-                <SearchResultInfo total={results?.pagination?.total ?? 0} city={city ?? "Unknown"}
-                />
+                <SearchResultInfo total={results?.pagination?.total ?? 0} city={city ?? "Unknown"} />
                 {
                     results?.data.map((restaurant) => (
                         <SearchResultCard key={restaurant._id} restaurant={restaurant} />
                     ))
                 }
+
+                <PaginationSelector
+                    page={results?.pagination.page ?? 1}
+                    pages={results?.pagination.pages ?? 1}
+                    onPageChange={setPage}
+                />
+
             </div>
         </div>
 
