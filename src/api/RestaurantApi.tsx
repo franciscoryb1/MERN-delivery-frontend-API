@@ -16,6 +16,7 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
         params.set("searchQuery", searchState.searchQuery); // Agrega la consulta de búsqueda a los parámetros de la URL
         params.set("page", searchState.page.toString()); // Agrega la página a los parámetros de la URL
         params.set("selectedCuisines", searchState.selectedCuisines.join(",")); // Agrega las cocinas seleccionadas a los parámetros de la URL
+        params.set("sortOption", searchState.sortOption || ""); // Agrega la opción de ordenamiento a los parámetros de la URL
 
         const response = await fetch(
             `${API_BASE_URL}/api/restaurant/search/${city}?${params.toString()}`
