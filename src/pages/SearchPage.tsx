@@ -1,4 +1,5 @@
 import { useSearchRestaurants } from "@/api/RestaurantApi";
+import CuisineFilter from "@/components/CuisineFilter";
 import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
@@ -10,6 +11,7 @@ import { useParams } from "react-router-dom";
 export type SearchState = {
     searchQuery: string;
     page: Number;
+    selectedCuisines: string[];
 }
 
 
@@ -19,8 +21,24 @@ const SearchPage = () => {
     const [searchState, setSearchState] = useState<SearchState>({
         searchQuery: "", // Estado inicial de la búsqueda
         page: 1, // Página inicial
-    })
+        selectedCuisines: []
+    });
 
+    // Estado para controlar la expansión del filtro de cocina
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+
+
+
+    const setSelectedCuisines = (selectedCuisines: string[]) => {
+        setSearchState((prevState) => ({
+            ...prevState, // Copia todo el estado anterior
+            selectedCuisines, // Actualiza el estado con las nuevas cocinas seleccionadas
+            page: 1, // Reinicia la página a 1 al seleccionar nuevas cocinas
+        }));
+    };
+
+    // Se usa para la paginacion, cuando se cambia de pagina se actualiza el estado con la nueva pagina
     const setPage = (page: number) => {
         setSearchState((setSearchState) => ({
             ...setSearchState,
@@ -28,7 +46,8 @@ const SearchPage = () => {
         }));
     };
 
-
+    // Se llama cuando se envía el formulario de búsqueda
+    // Se usa para actualizar el estado con la nueva consulta de búsqueda
     const setSearchQuery = (searchFormData: SearchForm) => {
         // Copia todo el estado anterior y actualiza solo la propiedad searchQuery
         setSearchState((prevState) => ({
@@ -38,6 +57,8 @@ const SearchPage = () => {
         }))
     }
 
+    // Función para restablecer la búsqueda a su estado inicial
+    // Se llama cuando se hace clic en el botón de restablecimiento
     const resetSearch = () => {
         // Copia todo el estado anterior y actualiza solo la propiedad searchQuery a una cadena vacía
         setSearchState((prevState) => ({
@@ -59,9 +80,14 @@ const SearchPage = () => {
     return (
 
         // primero se hace para mobile en una columna y luego para desktop 2, una de 250px y otra de 1fr (que ocupa el resto del espacio disponible)
-        <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gapt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
             <div id="cousines-list">
-                insert cuisines here:
+                <CuisineFilter
+                    selectedCuisines={searchState.selectedCuisines}
+                    onChange={setSelectedCuisines}
+                    isExpanded={isExpanded}
+                    onExpandedClick={() => setIsExpanded((prevIsExpanded) => !prevIsExpanded)} // Cambia el estado de expansión al hacer clic
+                />
             </div>
 
             <div id="main-content" className="flex flex-col gap-5">
