@@ -4,6 +4,7 @@ import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchResultInfo from "@/components/SearchResultInfo";
+import SortOptionDropdown from "@/components/SortOptionDropdown";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -12,6 +13,7 @@ export type SearchState = {
     searchQuery: string;
     page: Number;
     selectedCuisines: string[];
+    sortOption?: string;
 }
 
 
@@ -21,7 +23,8 @@ const SearchPage = () => {
     const [searchState, setSearchState] = useState<SearchState>({
         searchQuery: "", // Estado inicial de la búsqueda
         page: 1, // Página inicial
-        selectedCuisines: []
+        selectedCuisines: [],
+        sortOption: 'bestMatch'
     });
 
     // Estado para controlar la expansión del filtro de cocina
@@ -29,6 +32,15 @@ const SearchPage = () => {
 
 
 
+
+
+    const setSortOption = (sortOption: string) => {
+        setSearchState(() => ({
+            ...searchState,
+            sortOption, // Actualiza el estado con la nueva opción de ordenamiento
+            page: 1, // Reinicia la página a 1 al cambiar la opción de ordenamiento
+        }))
+    };
 
     const setSelectedCuisines = (selectedCuisines: string[]) => {
         setSearchState((prevState) => ({
@@ -99,7 +111,13 @@ const SearchPage = () => {
                     onReset={resetSearch}
                 />
 
-                <SearchResultInfo total={results?.pagination?.total ?? 0} city={city ?? "Unknown"} />
+                <div className="flex justify-between flex-col gap-3 lg:flex-row">
+                    <SearchResultInfo total={results?.pagination?.total ?? 0} city={city ?? "Unknown"} />
+
+                    <SortOptionDropdown sortOption={searchState.sortOption ?? ''} onChange={(value) => setSortOption(value)} />
+                </div>
+
+
                 {
                     results?.data.map((restaurant) => (
                         <SearchResultCard key={restaurant._id} restaurant={restaurant} />
