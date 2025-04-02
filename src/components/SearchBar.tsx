@@ -26,12 +26,12 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }: Props) => {
   const form = useForm<SearchForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      searchQuery,
+      searchQuery: searchQuery || "",
     },
   });
 
   useEffect(() => {
-    form.reset({ searchQuery });
+    form.reset({ searchQuery: searchQuery || "" });
   }, [form, searchQuery]);
 
   const handleReset = () => {
