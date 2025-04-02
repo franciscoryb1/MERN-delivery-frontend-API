@@ -1,8 +1,6 @@
 import { SearchState } from "@/pages/SearchPage";
 import { RestaurantSearchResponse } from "@/types";
-import e from "express";
 import { useQuery } from "react-query";
-import { data } from "react-router-dom";
 
 // Todos los hooks y requests para comunicarse con el backend al endpoint del Restaurant
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
