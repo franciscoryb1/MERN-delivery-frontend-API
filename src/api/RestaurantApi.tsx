@@ -1,9 +1,34 @@
 import { SearchState } from "@/pages/SearchPage";
-import { RestaurantSearchResponse } from "@/types";
+import { Restaurant, RestaurantSearchResponse } from "@/types";
 import { useQuery } from "react-query";
 
 // Todos los hooks y requests para comunicarse con el backend al endpoint del Restaurant
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+export const useGetRestaurant = (restaurantId?: string) => {
+    const getRestaurantByIdRequest = async (): Promise<Restaurant> => {
+        const response = await fetch(`${API_BASE_URL}/api/restaurant/${restaurantId}`);
+
+        if (!response) {
+            throw new Error("Failed to get restaurant");
+        };
+
+        return response.json();
+    };
+
+    const { data: restaurant, isLoading } = useQuery(
+        "fetchRestaurant",
+        getRestaurantByIdRequest,
+        {
+            enabled: !!restaurantId, // Solo se ejecuta si restaurantId no es undefined
+        }
+    );
+
+    return {
+        restaurant,
+        isLoading,
+    };
+};
 
 export const useSearchRestaurants = (searchState: SearchState, city?: string) => {
     // Hook para buscar restaurantes por ciudad
