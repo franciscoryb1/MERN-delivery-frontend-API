@@ -4,7 +4,6 @@ import { CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { Trash } from "lucide-react";
-import { Item } from "@radix-ui/react-dropdown-menu";
 
 
 type Props = {
