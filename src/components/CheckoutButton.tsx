@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import LoadingButton from "./LoadingButton";
 
 const CheckoutButton = () => {
-    const { isauthenticated, isLoading: isAuthLoading, loginWithRedirect } = useAuth0();
+    const { isAuthenticated, isLoading: isAuthLoading, loginWithRedirect } = useAuth0();
 
     const { pathname } = useLocation();
 
@@ -16,7 +16,7 @@ const CheckoutButton = () => {
         });
     }
 
-    if (!isauthenticated) {
+    if (!isAuthenticated) {
         return (
             <Button onClick={onLogin} className="bg-orange-500 flex-1">
                 Log in to check out
