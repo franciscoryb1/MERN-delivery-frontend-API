@@ -1,9 +1,10 @@
 import { useGetRestaurant } from "@/api/RestaurantApi";
+import CheckoutButton from "@/components/CheckoutButton";
 import MenuItemComponent from "@/components/MenuItemComponent";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { MenuItem } from "@/types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -20,7 +21,12 @@ const DetailPage = () => {
     const { restaurantId } = useParams();
     const { restaurant, isLoading } = useGetRestaurant(restaurantId);
 
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [cartItems, setCartItems] = useState<CartItem[]>(
+        () => {
+            const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
+            return storedCartItems ? JSON.parse(storedCartItems) : [];
+        }
+    );
 
     const addToCart = (menuItem: MenuItem) => {
         setCartItems((prevCartItems) => {
@@ -46,6 +52,12 @@ const DetailPage = () => {
                 ];
             }
 
+            // 4) Guardar el carrito en sessionStorage para persistirlo entre recargas
+            sessionStorage.setItem(
+                `cartItems-${restaurantId}`,
+                JSON.stringify(updatedCartItems)
+            );
+
             return updatedCartItems;
         });
     };
@@ -55,6 +67,13 @@ const DetailPage = () => {
             const updatedCartItems = prevCartItems.filter(
                 (item) => cartItem._id !== item._id
             );
+
+            // 4) Guardar el carrito en sessionStorage para persistirlo entre recargas
+            sessionStorage.setItem(
+                `cartItems-${restaurantId}`,
+                JSON.stringify(updatedCartItems)
+            );
+
             return updatedCartItems;
         });
     };
@@ -83,7 +102,12 @@ const DetailPage = () => {
                 </div>
 
                 <Card>
-                    <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart}/>
+                    <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart} />
+
+                    <CardFooter className="">
+                        <CheckoutButton />
+                    </CardFooter>
+
                 </Card>
                 <div>
 
