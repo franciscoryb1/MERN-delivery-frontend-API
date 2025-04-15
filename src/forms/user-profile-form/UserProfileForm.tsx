@@ -21,7 +21,7 @@ const formSchema = z.object({
 
 
 // 
-type UserFormData = z.infer<typeof formSchema>; // Tipo de datos para el formulario de perfil de usuario
+export type UserFormData = z.infer<typeof formSchema>; // Tipo de datos para el formulario de perfil de usuario
 
 type Props = {
     currentUser: User,
