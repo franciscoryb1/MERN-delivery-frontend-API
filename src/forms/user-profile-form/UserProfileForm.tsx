@@ -27,10 +27,12 @@ type Props = {
     currentUser: User,
     onSave: (UserProfileData: UserFormData) => void;
     islLoading: boolean;
+    title?: string;
+    buttonText?: string;
 }
 
 // Componente de formulario de perfil de usuario
-const UserProfileForm = ({ currentUser, onSave, islLoading }: Props) => {
+const UserProfileForm = ({ currentUser, onSave, islLoading, title = "User Profile", buttonText = "Submit" }: Props) => {
 
     const form = useForm<UserFormData>({
         resolver: zodResolver(formSchema), // Resolver de Zod para React Hook Form, se usa para validar los datos del formulario, con las validaciones que defini en el formSchema
@@ -47,7 +49,7 @@ const UserProfileForm = ({ currentUser, onSave, islLoading }: Props) => {
             {/* handleSubmit valida y envía los datos del formulario a onSave */}
             <form onSubmit={form.handleSubmit(onSave)} className='space-y-4 bg-gray-50 rounded-lg md:p-10'>
                 <div>
-                    <h2 className='text-2xl font-bold'>User Profile Form</h2>
+                    <h2 className='text-2xl font-bold'>{title}</h2>
                     <FormDescription>
                         View and change your user profile information here.
                     </FormDescription>
@@ -131,7 +133,7 @@ const UserProfileForm = ({ currentUser, onSave, islLoading }: Props) => {
                 </div>
 
                 {islLoading ? (<LoadingButton />) : (
-                    <Button type='submit' className='bg-orange-500'>Submit</Button>
+                    <Button type='submit' className='bg-orange-500'>{buttonText}</Button>
                 )}
 
             </form>

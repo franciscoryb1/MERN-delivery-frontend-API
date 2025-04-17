@@ -39,16 +39,18 @@ const CheckoutButton = ({ onCheckout, disabled }: Props) => {
 
     return (
         <Dialog>
-            <DialogTrigger asChild>
+            <DialogTrigger asChild className="bg-orange-500 flex-1">
                 <Button disabled={disabled} className="bg-orange-500 flex-1">
                     Go to Check out
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-500">
+            <DialogContent className="max-w-[425px] md:min-w-[700px] bg-gray-500 p-0">
                 <UserProfileForm
                     currentUser={currentUser}
                     onSave={onCheckout}
                     islLoading={isGetUserLoading}
+                    title="Confirm Delivery Details"
+                    buttonText="Confirm to payment"
                 />
             </DialogContent>
         </Dialog>
