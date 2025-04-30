@@ -7,6 +7,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
+import OrderStatusPage from "./pages/OrderStatusPage";
 
 const AppRoutes = () => {
     return (
@@ -33,6 +34,7 @@ const AppRoutes = () => {
 
             {/* Ruta protegida: user-profile solo se muestra si el usuario esta loggeado */}
             <Route element={<ProtectedRoute />}>
+
                 {/* UserProfilePage */}
                 <Route
                     path="/user-profile"
@@ -41,12 +43,22 @@ const AppRoutes = () => {
                             <UserProfilePage />
                         </Layout>}
                 />
+
                 {/* ManageRestaurantPage */}
                 <Route
                     path="/manage-restaurant"
                     element={
                         <Layout>
                             <ManageRestaurantPage />
+                        </Layout>}
+                />
+
+                {/* OrderStatusPage */}
+                <Route
+                    path="/order-status"
+                    element={
+                        <Layout>
+                            <OrderStatusPage />
                         </Layout>}
                 />
             </Route>
