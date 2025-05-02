@@ -160,7 +160,8 @@ export const useGetMyRestaurantOrders = () => {
 
     const { data: orders, isLoading } = useQuery(
         'fetchMyRestaurantOrders',
-        getMyRestaurantOrdersRequest
+        getMyRestaurantOrdersRequest,
+        { refetchInterval: 5000, } // Refetch every 5 seconds
     );
 
     return {
