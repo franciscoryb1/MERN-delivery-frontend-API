@@ -1,57 +1,58 @@
-# MERN Delivery Backend API
+# MERN Delivery Frontend
 
-API REST para un sistema de pedidos de comida a domicilio, desarrollada como **proyecto personal basado en un curso práctico de backend full‑stack**. Permite gestionar usuarios, restaurantes, menús y órdenes, e integra servicios externos para pagos, autenticación y almacenamiento de imágenes.
+Frontend web para una plataforma de delivery de comida a domicilio, desarrollado como **proyecto personal basado en un curso práctico de desarrollo full‑stack con MERN**.
 
-El backend está construido con Node.js y TypeScript, siguiendo una arquitectura modular orientada a servicios y buenas prácticas en el diseño de APIs.
+La aplicación permite a los usuarios explorar restaurantes, buscar por ciudad, gestionar su perfil, realizar pedidos y completar pagos de forma segura, integrándose con un backend independiente.
 
-> **Frontend relacionado:** [https://github.com/franciscoryb1/MERN-Frontend](https://github.com/franciscoryb1/MERN-Frontend)
-
----
-
-## Descripción
-
-El proyecto implementa el flujo completo de una aplicación de delivery moderna:
-
-* Registro y autenticación de usuarios.
-* Gestión de restaurantes y menús.
-* Búsqueda por ciudad.
-* Creación y seguimiento de órdenes.
-* Procesamiento de pagos online mediante Stripe.
-* Almacenamiento de imágenes en la nube con Cloudinary.
-
-La autenticación se realiza mediante **Auth0** utilizando tokens JWT.
+> **Repositorio backend:** [https://github.com/franciscoryb1/MERN-delivery-backend-API](https://github.com/franciscoryb1/MERN-delivery-backend-API)
 
 ---
 
-## Funcionalidades principales
+## Descripción del proyecto
 
-* Gestión de usuarios (perfil, dirección y autenticación).
-* Gestión de restaurantes y menú (alta, edición y consulta).
+Este frontend ofrece una experiencia moderna, responsive y orientada al usuario para el flujo completo de pedidos de comida:
+
+* Registro e inicio de sesión mediante **Auth0**.
 * Búsqueda de restaurantes por ciudad.
-* Creación de órdenes y seguimiento de estados.
-* Checkout con Stripe y webhook para confirmación de pagos.
-* Subida y administración de imágenes mediante Cloudinary.
+* Visualización de menús y detalles de restaurantes.
+* Creación de órdenes y seguimiento de estado.
+* Checkout y confirmación de pago con Stripe (a través del backend).
+* Panel de restaurante para administración de órdenes y menú.
 
 ---
 
 ## Tecnologías utilizadas
 
-* **Node.js** + **Express**
-* **TypeScript**
-* **MongoDB** + **Mongoose**
-* **Auth0** (JWT) para autenticación
-* **Stripe** para pagos online
-* **Cloudinary** para almacenamiento de imágenes
+* **React 18** + **TypeScript**
+* **Vite** (bundler y entorno de desarrollo)
+* **React Router** (ruteo de vistas)
+* **React Query** (gestión de estado remoto y cacheo)
+* **Tailwind CSS** + **shadcn/ui** (UI y estilos)
+* **Auth0** (autenticación)
 
 ---
 
 ## Requisitos previos
 
-* Node.js 18.12.x o superior
-* MongoDB en ejecución (local o remoto)
-* Cuenta en Auth0
-* Cuenta en Stripe
-* Cuenta en Cloudinary
+* Node.js 18 o superior
+* Backend en ejecución (ver repositorio backend)
+* Cuenta configurada en Auth0
+
+---
+
+## Configuración del entorno
+
+Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
+
+```env
+VITE_API_BASE_URL=http://localhost:7000
+VITE_AUTH0_DOMAIN=your-domain.auth0.com
+VITE_AUTH0_CLIENT_ID=your-client-id
+VITE_AUTH0_CALLBACK_URL=http://localhost:5173/callback
+VITE_AUTH0_AUDIENCE=your-audience
+```
+
+Ajustar `VITE_API_BASE_URL` según el host y puerto donde se ejecute el backend.
 
 ---
 
@@ -63,84 +64,56 @@ La autenticación se realiza mediante **Auth0** utilizando tokens JWT.
 npm install
 ```
 
-2. Ejecutar el servidor en modo desarrollo:
+2. Iniciar el entorno de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-El servidor se iniciará en:
+La aplicación estará disponible en:
 
 ```
-http://localhost:7000
+http://localhost:5173
 ```
 
----
-
-## Variables de entorno
-
-Crear un archivo `.env` en la raíz del proyecto con las siguientes claves:
-
-```env
-MONGODB_CONNECTION_STRING=
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-AUTH0_AUDIENCE=
-AUT0_ISSUER_BASE_URL=
-STRIPE_API_KEY=
-STRIPE_WEBHOOK_SECRET=
-FRONTEND_URL=
-```
 ---
 
 ## Scripts disponibles
 
-* `npm run dev` — inicia el servidor en modo desarrollo con Nodemon y escucha webhooks de Stripe.
-* `npm run build` — instala dependencias y compila el proyecto TypeScript.
-* `npm start` — ejecuta la aplicación compilada desde el directorio `dist/`.
----
-
-## Endpoints principales
-
-### Salud del servidor
-
-* `GET /health` — estado del servidor.
-
-### Usuarios
-
-* `GET /api/my/user` — obtener usuario autenticado.
-* `POST /api/my/user` — crear usuario autenticado.
-* `PUT /api/my/user` — actualizar usuario autenticado.
-
-### Restaurantes
-
-* `GET /api/my/restaurant` — obtener restaurante del usuario.
-* `POST /api/my/restaurant` — crear restaurante.
-* `PUT /api/my/restaurant` — actualizar restaurante.
-* `GET /api/my/restaurant/order` — obtener órdenes del restaurante.
-* `PATCH /api/my/restaurant/order/:orderId/status` — actualizar estado de una orden.
-
-### Catálogo público
-
-* `GET /api/restaurant/search/:city` — buscar restaurantes por ciudad.
-* `GET /api/restaurant/:restaurantId` — obtener restaurante por ID.
-
-### Órdenes y pagos
-
-* `GET /api/order` — obtener órdenes del usuario.
-* `POST /api/order/checkout/create-checkout-session` — crear sesión de pago en Stripe.
-* `POST /api/order/checkout/webhook` — webhook para confirmación de pagos.
+* `npm run dev` — inicia el entorno de desarrollo.
+* `npm run build` — compila la aplicación para producción.
+* `npm run preview` — previsualiza el build localmente.
+* `npm run lint` — ejecuta el linter del proyecto.
 
 ---
 
-## Frontend
+## Estructura general
 
-Este backend se integra con el siguiente repositorio frontend:
-
-[https://github.com/franciscoryb1/MERN-Frontend](https://github.com/franciscoryb1/MERN-Frontend)
+```
+src/
+  api/            # Consumo de endpoints del backend
+  auth/           # Configuración de Auth0
+  components/     # Componentes reutilizables
+  forms/          # Formularios y validaciones
+  pages/          # Vistas principales
+```
 
 ---
 
 ## Estado del proyecto
-Proyecto personal finalizado hasta su primera etapa funcional, con todas las características principales implementadas (autenticación, gestión de usuarios y restaurantes, órdenes, pagos e integración con servicios externos).
+
+Proyecto personal **finalizado hasta su primera etapa funcional**, con las funcionalidades principales ya implementadas:
+
+* Navegación completa
+* Autenticación
+* Búsqueda y visualización de restaurantes
+* Flujo de pedidos
+* Panel de gestión para restaurantes
+
+---
+
+## Backend relacionado
+
+El backend de esta aplicación se encuentra disponible en:
+
+[https://github.com/franciscoryb1/MERN-delivery-backend-API](https://github.com/franciscoryb1/MERN-delivery-backend-API)
