@@ -1,4 +1,4 @@
-# GastroDelivery Backend API
+# MERN Delivery Backend API
 
 API REST para un sistema de pedidos de comida a domicilio, desarrollada como **proyecto personal basado en un curso práctico de backend full‑stack**. Permite gestionar usuarios, restaurantes, menús y órdenes, e integra servicios externos para pagos, autenticación y almacenamiento de imágenes.
 
